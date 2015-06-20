@@ -6,7 +6,6 @@ import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
-import fr.tpdo.teso.view.HomeView;
 import fr.tpdo.teso.view.MainView;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -34,7 +33,6 @@ public class MapMergerUI extends UI {
         navigator = new Navigator(this, this);
 
         registerView("", MainView.class);
-        registerView(HomeView.NAV_STATE, HomeView.class);
     }
 
     private <VIEW> void registerView(String key, Class<VIEW> type) {

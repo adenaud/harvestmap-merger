@@ -12,7 +12,6 @@ import com.vaadin.ui.declarative.Design;
 import fr.tpdo.teso.model.Node;
 import fr.tpdo.teso.service.MergerService;
 import fr.tpdo.teso.service.NodeService;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -22,9 +21,6 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 
-/**
- * Created by Anthony on 19/06/2015.
- */
 @Component
 @Scope("prototype")
 @DesignRoot
@@ -32,7 +28,6 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
 
     public static final String NAV_STATE = "main";
 
-    private Button button;
     private Upload upload;
     private Table tableNodes;
 
