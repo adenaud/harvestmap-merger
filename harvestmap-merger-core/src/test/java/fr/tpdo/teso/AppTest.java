@@ -25,10 +25,8 @@ public class AppTest extends TestCase {
     public void testApp() {
         try {
             InputStream luaStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("HarvestMap.lua");
-            InputStream luaNicoStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("HarvestMap.nico.lua");
 
             String luaString = IOUtils.toString(luaStream);
-            String luaNicoString  = IOUtils.toString(luaNicoStream);
 
             JSONObject jsonObject = MapMerger.toJson(luaString);
             List<Node> refList = MapMerger.getNodes(luaString);

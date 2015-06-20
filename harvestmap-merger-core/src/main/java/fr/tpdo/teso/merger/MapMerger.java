@@ -3,6 +3,7 @@ package fr.tpdo.teso.merger;
 
 import fr.tpdo.teso.model.Node;
 import org.json.JSONObject;
+import org.luaj.vm2.ast.Str;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,24 +56,31 @@ public class MapMerger {
         List<Node> nodes = new ArrayList<Node>();
 
         JSONObject defaultObject = toJson(lua).getJSONObject("Default");
-        JSONObject accountObject = defaultObject.getJSONObject(defaultObject.keys().next());
-        JSONObject accountWideObject = accountObject.getJSONObject("$AccountWide");
-        JSONObject zones = accountWideObject.getJSONObject("nodes").getJSONObject("data");
 
-        for(String zoneKey :  zones.keySet()){
-            JSONObject zone = zones.getJSONObject(zoneKey);
-            for (String typeKey : zone.keySet()){
-                for(String dataKey : zone.getJSONObject(typeKey).keySet()){
-                    String data = zone.getJSONObject(typeKey).getString(dataKey);
+        for(String account : defaultObject.keySet()){
+
+            JSONObject accountObject = defaultObject.getJSONObject(account);
+
+            JSONObject accountWideObject = accountObject.getJSONObject("$AccountWide");
+            JSONObject zones = accountWideObject.getJSONObject("nodes").getJSONObject("data");
+
+            for(String zoneKey :  zones.keySet()){
+                JSONObject zone = zones.getJSONObject(zoneKey);
+                for (String typeKey : zone.keySet()){
+                    for(String dataKey : zone.getJSONObject(typeKey).keySet()){
+                        String data = zone.getJSONObject(typeKey).getString(dataKey);
 
 
-                    Node node = AceDeserializer.Deserialize(data);
-                    node.setType(Integer.parseInt(typeKey));
-                    node.setZone(zoneKey);
-                    nodes.add(node);
+                        Node node = AceDeserializer.Deserialize(data);
+                        node.setType(Integer.parseInt(typeKey));
+                        node.setZone(zoneKey);
+                        nodes.add(node);
+                    }
                 }
             }
         }
+
+
         return nodes;
     }
 }

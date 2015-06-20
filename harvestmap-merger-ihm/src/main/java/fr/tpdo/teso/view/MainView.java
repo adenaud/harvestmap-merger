@@ -4,10 +4,7 @@ import com.vaadin.annotations.DesignRoot;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.Upload;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.declarative.Design;
 import fr.tpdo.teso.model.Node;
 import fr.tpdo.teso.service.MergerService;
@@ -47,6 +44,9 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         upload.setReceiver(this);
         upload.addSucceededListener(this);
+
+        List<Node> nodes = nodeService.getAllNodes();
+        updateNodesTable(nodes);
     }
 
     @Override
@@ -60,13 +60,19 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
         byte[] data = ((ByteArrayOutputStream)outputStream).toByteArray();
         String lua = new String(data, Charset.forName("UTF-8"));
         List<Node> nodes = mergerService.getNodes(lua);
+
+        int imported = nodeService.saveAll(nodes);
+
+        nodes = nodeService.getAllNodes();
         updateNodesTable(nodes);
+        Notification.show(imported + "éléments importés");
     }
 
     public void updateNodesTable(List<Node> nodes){
         BeanItemContainer<Node> container = new BeanItemContainer<>(Node.class,nodes);
         tableNodes.setContainerDataSource(container);
         tableNodes.setVisibleColumns("x","y","zone","description");
-        tableNodes.setColumnHeaders("X","Y","Zone","Description");
+        tableNodes.setColumnHeaders("X","Y","Zone","Déscription");
+
     }
 }

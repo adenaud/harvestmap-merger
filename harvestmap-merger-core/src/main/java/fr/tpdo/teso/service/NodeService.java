@@ -20,15 +20,15 @@ public class NodeService {
         return nodeDao.findAll();
     }
 
-    public void save(Node node) {
-        nodeDao.save(node);
-    }
 
-    public void importNodes(List<Node> nodes) {
-
-        for (Node node : nodes) {
-
-            nodeDao.save(node);
+    public int saveAll(List<Node> nodes) {
+        int count = 0;
+        for (Node node : nodes){
+            if(nodeDao.count(node.getX(),node.getY(),node.getZone(),node.getType()) == 0){
+                nodeDao.save(node);
+                count++;
+            }
         }
+        return count;
     }
 }
