@@ -8,10 +8,12 @@ import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.declarative.Design;
+import fr.tpdo.teso.ReadException;
 import fr.tpdo.teso.merger.MapMerger;
 import fr.tpdo.teso.model.Node;
 import fr.tpdo.teso.service.MergerService;
 import fr.tpdo.teso.service.NodeService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -21,12 +23,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 @Scope("prototype")
 @DesignRoot
-public class MainView extends VerticalLayout implements View, Upload.Receiver, Upload.SucceededListener, Button.ClickListener {
+public class MainView extends VerticalLayout implements View, Upload.Receiver, Upload.SucceededListener {
 
     public static final String NAV_STATE = "main";
 
@@ -54,8 +57,8 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
 
         List<Node> nodes = nodeService.getAllNodes();
         updateNodesTable(nodes);
+        downloadBtn.setEnabled(false);
 
-        downloadBtn.addClickListener(this);
     }
 
     @Override
@@ -68,14 +71,21 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
     public void uploadSucceeded(Upload.SucceededEvent succeededEvent) {
         byte[] data = ((ByteArrayOutputStream)outputStream).toByteArray();
         lua = new String(data, Charset.forName("UTF-8"));
-        List<Node> nodes = mergerService.getNodes(lua);
+        List<Node> nodes = new ArrayList<>();
+        try {
+            nodes = mergerService.getNodes(lua);
+            int imported = nodeService.saveAll(nodes);
 
-        int imported = nodeService.saveAll(nodes);
 
+            prepareDownload();
+            Notification.show(imported + "éléments importés");
+        }catch (ReadException e)
+        {
+            Notification.show(e.getMessage(), Notification.Type.WARNING_MESSAGE);
+        }
         nodes = nodeService.getAllNodes();
         updateNodesTable(nodes);
-        prepareDownload();
-        Notification.show(imported + "éléments importés");
+
     }
 
     public void updateNodesTable(List<Node> nodes){
@@ -99,12 +109,6 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
 
         FileDownloader fileDownloader = new FileDownloader(new StreamResource(resource,"HarvestMap.lua"));
         fileDownloader.extend(downloadBtn);
-    }
-
-    @Override
-    public void buttonClick(Button.ClickEvent clickEvent) {
-        if(clickEvent.getButton() == downloadBtn){
-
-        }
+        downloadBtn.setEnabled(true);
     }
 }

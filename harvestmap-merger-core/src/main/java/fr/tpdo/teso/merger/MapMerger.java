@@ -2,6 +2,7 @@ package fr.tpdo.teso.merger;
 
 
 import fr.tpdo.teso.model.Node;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.luaj.vm2.ast.Str;
 
@@ -19,14 +20,13 @@ public class MapMerger {
      * @param lua HarvestMap.lua content
      * @return
      */
-    public static JSONObject toJson(String lua) throws IOException {
+    public static JSONObject toJson(String lua) throws JSONException {
         lua = lua.substring(lua.indexOf('\n')+1);
         lua = lua.replace(" -- invalid value type [function] used", "");
         lua = lua.replace(" =", " :");
         lua = lua.replace("nil,", "\"null\",");
         lua = lua.replaceAll("\\[\"?([^]^\"]*)\"?\\]","\"$1\"");
         lua = lua.replaceAll(",\\r?\\n([ ]*)\\}","\n$1}");
-
         return new JSONObject(lua);
     }
 
@@ -51,7 +51,7 @@ public class MapMerger {
      * @param lua HarvestMap.lua content
      * @return the node List
      */
-    public static List<Node> getNodes(String lua) throws IOException {
+    public static List<Node> getNodes(String lua) throws JSONException {
 
         List<Node> nodes = new ArrayList<Node>();
 

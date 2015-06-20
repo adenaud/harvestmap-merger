@@ -1,8 +1,10 @@
 package fr.tpdo.teso.service;
 
+import fr.tpdo.teso.ReadException;
 import fr.tpdo.teso.dao.NodeDao;
 import fr.tpdo.teso.merger.MapMerger;
 import fr.tpdo.teso.model.Node;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +28,8 @@ public class MergerService {
 
         try {
             nodes= MapMerger.getNodes(lua);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (JSONException e) {
+            throw new ReadException("Impossible de lire le fichier HarvestMap.lua",e);
         }
         return nodes;
     }
@@ -60,8 +62,8 @@ public class MergerService {
                 }
                 accountWideObject.getJSONObject("nodes").put("data", data);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (JSONException e) {
+            throw new ReadException("Impossible de lire le fichier HarvestMap.lua",e);
         }
 
         JSONObject root = new JSONObject();
