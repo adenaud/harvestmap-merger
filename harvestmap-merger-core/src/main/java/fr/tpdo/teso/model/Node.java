@@ -20,8 +20,8 @@ public class Node {
 
     private int type;
 
-    private String x;
-    private String y;
+    private double x;
+    private double y;
 
     public Node() {
     }
@@ -62,19 +62,19 @@ public class Node {
         this.type = type;
     }
 
-    public String getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(String x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public String getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(String y) {
+    public void setY(double y) {
         this.y = y;
     }
 }
