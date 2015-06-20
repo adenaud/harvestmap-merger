@@ -1,6 +1,7 @@
 package fr.tpdo.teso.view;
 
 import com.vaadin.annotations.DesignRoot;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -54,14 +56,22 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
 
     @Override
     public OutputStream receiveUpload(String s, String s1) {
-        outputStream = new ByteArrayOutputStream();
+        outputStream =  new ByteArrayOutputStream();
         return outputStream;
     }
 
     @Override
     public void uploadSucceeded(Upload.SucceededEvent succeededEvent) {
         byte[] data = ((ByteArrayOutputStream)outputStream).toByteArray();
-        String lua = new String(data);
+        String lua = new String(data, Charset.forName("UTF-8"));
         List<Node> nodes = mergerService.getNodes(lua);
+        updateNodesTable(nodes);
+    }
+
+    public void updateNodesTable(List<Node> nodes){
+        BeanItemContainer<Node> container = new BeanItemContainer<>(Node.class,nodes);
+        tableNodes.setContainerDataSource(container);
+        tableNodes.setVisibleColumns("x","y","zone","description");
+        tableNodes.setColumnHeaders("X","Y","Zone","Description");
     }
 }

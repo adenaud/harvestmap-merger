@@ -66,11 +66,9 @@ public class MapMerger {
                     String data = zone.getJSONObject(typeKey).getString(dataKey);
 
 
-                    Node node = new Node(data);
+                    Node node = AceDeserializer.Deserialize(data);
                     node.setType(Integer.parseInt(typeKey));
                     node.setZone(zoneKey);
-                   // node.setX(x);
-                   // node.setY(y);
                     nodes.add(node);
                 }
             }
