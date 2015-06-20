@@ -56,11 +56,9 @@ public class MapMerger {
         List<Node> nodes = new ArrayList<Node>();
 
         JSONObject defaultObject = toJson(lua).getJSONObject("Default");
-
         for(String account : defaultObject.keySet()){
 
             JSONObject accountObject = defaultObject.getJSONObject(account);
-
             JSONObject accountWideObject = accountObject.getJSONObject("$AccountWide");
             JSONObject zones = accountWideObject.getJSONObject("nodes").getJSONObject("data");
 
@@ -83,4 +81,5 @@ public class MapMerger {
 
         return nodes;
     }
+
 }

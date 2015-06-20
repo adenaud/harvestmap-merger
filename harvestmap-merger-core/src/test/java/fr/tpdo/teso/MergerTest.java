@@ -14,18 +14,18 @@ import javax.transaction.Transactional;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:/testContext.xml")
 @Transactional
-public class AppTest extends TestCase {
+public class MergerTest extends TestCase {
 
     @Test
-    public void testApp() {
+    public void testReadWrite() {
         try {
             InputStream luaStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("HarvestMap.lua");
-
             String luaString = IOUtils.toString(luaStream);
 
             JSONObject jsonObject = MapMerger.toJson(luaString);
@@ -35,7 +35,7 @@ public class AppTest extends TestCase {
 
 
             String lua = MapMerger.toLua(jsonObject);
-            //System.out.println(lua);
+            System.out.println(lua);
 
             IOUtils.write(lua,new FileOutputStream("HarvestMap.out.lua"));
 
