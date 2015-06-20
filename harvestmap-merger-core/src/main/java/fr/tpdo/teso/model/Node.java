@@ -23,6 +23,8 @@ public class Node {
     private double x;
     private double y;
 
+    private String description;
+
     public Node() {
     }
 
@@ -76,5 +78,13 @@ public class Node {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

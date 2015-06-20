@@ -29,6 +29,7 @@ public class AceDeserializer {
 
         node.setX(x);
         node.setY(y);
+        node.setDescription(description);
 
         return node;
     }
