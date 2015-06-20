@@ -3,11 +3,26 @@
 <body>
 <v-vertical-layout size-full spacing margin>
 
-    <v-table _id="tableNodes" size-full :expand/>
+    <v-panel caption="Démarrage">
+        <v-vertical-layout margin spacing>
+            <v-label _id="desc1Label">Bienvenue sur HarvestMap Merger.</v-label>
+            <v-label _id="desc2Label">Le but de cet outils est de centraliser le maximum de données pour le plugin Harvest Map.
+            Il vous permet également de mettre à jour votre fichier de configuration du plugin.</v-label>
 
-    <v-upload _id="upload"></v-upload>
+            <v-label _id="inst1Label">1. Sélectionnez votre fichier HarvestMap.lua</v-label>
+            <v-upload _id="upload"></v-upload>
+            <v-label _id="inst2Label">2. Téléchargez votre nouveau fichier HarvestMap.lua</v-label>
+            <v-button _id="downloadBtn">Télécharger</v-button>
+        </v-vertical-layout>
+    </v-panel>
 
-    <v-button _id="downloadBtn">Télécharger</v-button>
+    <v-panel caption="Base de donnée"  size-full :expand="1">
+        <v-vertical-layout  margin spacing size-full :expand>
+            <v-label _id="databaseCountLabel"></v-label>
+            <v-table _id="tableNodes" size-full :expand="1"/>
+        </v-vertical-layout>
+    </v-panel>
+
 </v-vertical-layout>
 </body>
 </html>
