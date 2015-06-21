@@ -7,6 +7,7 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
         <class>fr.tpdo.teso.model.Node</class>
+        <class>fr.tpdo.teso.model.UploadData</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgresPlusDialect"/>

@@ -12,8 +12,10 @@ import com.vaadin.ui.themes.ValoTheme;
 import fr.tpdo.teso.ReadException;
 import fr.tpdo.teso.merger.MapMerger;
 import fr.tpdo.teso.model.Node;
+import fr.tpdo.teso.model.UploadData;
 import fr.tpdo.teso.service.MergerService;
 import fr.tpdo.teso.service.NodeService;
+import fr.tpdo.teso.service.UploadDataService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -46,6 +48,9 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
 
     @Autowired
     private MergerService mergerService;
+
+    @Autowired
+    private UploadDataService uploadDataService;
 
     @Autowired
     private NodeService nodeService;
@@ -89,6 +94,7 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
             nodes = mergerService.getNodes(lua);
             int imported = nodeService.saveAll(nodes);
 
+            uploadDataService.add(imported,lua);
 
             prepareDownload();
             Notification.show(imported + " élément(s) importés");

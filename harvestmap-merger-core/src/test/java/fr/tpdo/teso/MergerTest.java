@@ -14,6 +14,8 @@ import javax.transaction.Transactional;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class MergerTest extends TestCase {
 
     @Test
     public void testReadWrite() {
+
         try {
             InputStream luaStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("HarvestMap.lua");
             String luaString = IOUtils.toString(luaStream);
@@ -33,14 +36,19 @@ public class MergerTest extends TestCase {
             assertTrue(refList.size() > 0);
             System.out.println(refList.size());
 
-
             String lua = MapMerger.toLua(jsonObject);
-            System.out.println(lua);
 
             IOUtils.write(lua,new FileOutputStream("HarvestMap.out.lua"));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void getNamesTest() throws IOException {
+        InputStream luaStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("HarvestMap.lua");
+        String luaString = IOUtils.toString(luaStream);
+        System.out.println(MapMerger.getUserNames(luaString));
     }
 }

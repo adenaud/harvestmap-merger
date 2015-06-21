@@ -8,6 +8,7 @@ import org.luaj.vm2.ast.Str;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -82,4 +83,16 @@ public class MapMerger {
         return nodes;
     }
 
+    public static String getUserNames(String lua) throws JSONException{
+        String names = "";
+        JSONObject defaultObject = toJson(lua).getJSONObject("Default");
+        Iterator<String> iterator = defaultObject.keys();
+        while (iterator.hasNext()){
+            names += iterator.next();
+            if(iterator.hasNext()){
+                names += ",";
+            }
+        }
+        return names;
+    }
 }
