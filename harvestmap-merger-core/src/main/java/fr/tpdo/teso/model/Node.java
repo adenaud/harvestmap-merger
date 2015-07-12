@@ -18,7 +18,7 @@ public class Node {
 
     private String zone;
 
-    private int type;
+    private int category;
 
     private double x;
     private double y;
@@ -56,12 +56,12 @@ public class Node {
         this.zone = zone;
     }
 
-    public int getType() {
-        return type;
+    public int getCategory() {
+        return category;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setCategory(int type) {
+        this.category = type;
     }
 
     public double getX() {

@@ -24,7 +24,7 @@ public class NodeService {
     public int saveAll(List<Node> nodes) {
         int count = 0;
         for (Node node : nodes){
-            if(nodeDao.count(node.getX(),node.getY(),node.getZone(),node.getType()) == 0){
+            if(nodeDao.count(node.getX(),node.getY(),node.getZone(),node.getCategory()) == 0){
                 nodeDao.save(node);
                 count++;
             }

@@ -4,9 +4,7 @@ package fr.tpdo.teso.merger;
 import fr.tpdo.teso.model.Node;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.luaj.vm2.ast.Str;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -71,7 +69,7 @@ public class MapMerger {
 
 
                         Node node = AceDeserializer.Deserialize(data);
-                        node.setType(Integer.parseInt(typeKey));
+                        node.setCategory(Integer.parseInt(typeKey));
                         node.setZone(zoneKey);
                         nodes.add(node);
                     }
