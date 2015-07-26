@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <body>
-<v-vertical-layout size-full spacing margin>
+<v-vertical-layout spacing margin>
+
+    <v-label _id="mainTitle">HarvestMap Merger</v-label>
 
     <v-panel caption="Démarrage">
         <v-vertical-layout margin spacing>
@@ -16,10 +18,10 @@
         </v-vertical-layout>
     </v-panel>
 
-    <v-panel caption="Base de donnée"  size-full :expand="1">
+    <v-panel caption="Statistiques"  size-full :expand="1">
         <v-vertical-layout  margin spacing size-full :expand>
             <v-label _id="databaseCountLabel"></v-label>
-            <v-table _id="tableNodes" size-full :expand="1"/>
+            <v-link _id="dashLink"></v-link>
         </v-vertical-layout>
     </v-panel>
 

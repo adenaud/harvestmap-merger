@@ -1,6 +1,7 @@
 package fr.tpdo.teso.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /**
  * Created by Anthony on 17/06/2015.
@@ -13,17 +14,13 @@ public class Node {
     @SequenceGenerator(name = "NODE_SEQ_GEN", sequenceName = "SQ_NODE", allocationSize = 1, initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "NODE_SEQ_GEN")
     private Long id;
-
     private String data;
-
-    private String zone;
-
+    private String description;
     private int category;
-
     private double x;
     private double y;
-
-    private String description;
+    private String zone;
+    private Timestamp time;
 
     public Node() {
     }
@@ -86,5 +83,13 @@ public class Node {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
     }
 }

@@ -20,7 +20,7 @@ public class MapMerger {
      * @return
      */
     public static JSONObject toJson(String lua) throws JSONException {
-        lua = lua.substring(lua.indexOf('\n')+1);
+        lua = lua.replace("Harvest_SavedVars =","");
         lua = lua.replace(" -- invalid value type [function] used", "");
         lua = lua.replace(" =", " :");
         lua = lua.replace("nil,", "\"null\",");

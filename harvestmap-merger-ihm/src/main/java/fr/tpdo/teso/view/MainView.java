@@ -4,6 +4,7 @@ import com.vaadin.annotations.DesignRoot;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.StreamResource;
 import com.vaadin.ui.*;
@@ -18,6 +19,7 @@ import fr.tpdo.teso.service.NodeService;
 import fr.tpdo.teso.service.UploadDataService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -37,14 +39,20 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
     public static final String NAV_STATE = "main";
 
     private Upload upload;
-    private Table tableNodes;
+    //private Table tableNodes;
     private Button downloadBtn;
 
+    private Label mainTitle;
     private Label desc1Label;
     private Label inst1Label;
     private Label inst2Label;
 
     private Label databaseCountLabel;
+
+    private Link dashLink;
+
+    @Value("${app.version}")
+    private String appVersion;
 
     @Autowired
     private MergerService mergerService;
@@ -67,6 +75,9 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
         upload.setReceiver(this);
         upload.addSucceededListener(this);
 
+
+        mainTitle.addStyleName(ValoTheme.LABEL_H1);
+        mainTitle.setValue(mainTitle.getValue() + " " +appVersion );
         desc1Label.addStyleName(ValoTheme.LABEL_H2);
         inst1Label.addStyleName(ValoTheme.LABEL_H4);
         inst2Label.addStyleName(ValoTheme.LABEL_H4);
@@ -111,10 +122,13 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
 
         databaseCountLabel.setValue(nodes.size() + " points dans la base de donnees.");
 
+        dashLink.setCaption("Plus de statistiques");
+        dashLink.setResource(new ExternalResource("http://teso.tpdo.fr/dashboard-hmm/home/index"));
+
         BeanItemContainer<Node> container = new BeanItemContainer<>(Node.class,nodes);
-        tableNodes.setContainerDataSource(container);
-        tableNodes.setVisibleColumns("x","y","zone","description");
-        tableNodes.setColumnHeaders("X","Y","Zone","Description");
+        //tableNodes.setContainerDataSource(container);
+        //tableNodes.setVisibleColumns("x","y","zone","description");
+        //tableNodes.setColumnHeaders("X","Y","Zone","Description");
 
     }
 

@@ -6,25 +6,24 @@ import fr.tpdo.teso.merger.MapMerger;
 import fr.tpdo.teso.model.Node;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Anthony on 19/06/2015.
- */
 @Service
 public class MergerService {
+
+    private static Logger logger = LoggerFactory.getLogger(MergerService.class);
 
     @Autowired
     private NodeDao nodeDao;
 
     public List<Node> getNodes(String lua){
 
-        List<Node> nodes = new ArrayList<>();
+        List<Node> nodes;
 
         try {
             nodes= MapMerger.getNodes(lua);

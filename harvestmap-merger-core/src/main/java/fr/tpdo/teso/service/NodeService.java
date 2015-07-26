@@ -5,11 +5,10 @@ import fr.tpdo.teso.model.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Anthony on 19/06/2015.
- */
 @Service
 public class NodeService {
 
@@ -25,6 +24,7 @@ public class NodeService {
         int count = 0;
         for (Node node : nodes){
             if(nodeDao.count(node.getX(),node.getY(),node.getZone(),node.getCategory()) == 0){
+                node.setTime(new Timestamp(new Date().getTime()));
                 nodeDao.save(node);
                 count++;
             }
