@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "upload_datas")
@@ -16,6 +17,9 @@ public class UploadData {
     private Timestamp time;
     private String uploader;
     private int dataImportedCount;
+
+    @OneToMany(mappedBy = "uploadData",cascade = CascadeType.PERSIST)
+    private List<Node> nodes;
 
     public Long getId() {
         return id;
@@ -47,5 +51,21 @@ public class UploadData {
 
     public void setDataImportedCount(int dataImportedCount) {
         this.dataImportedCount = dataImportedCount;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
+    public List<Node> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(List<Node> nodes) {
+        this.nodes = nodes;
     }
 }

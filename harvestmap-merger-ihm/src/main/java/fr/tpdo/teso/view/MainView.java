@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -100,15 +101,21 @@ public class MainView extends VerticalLayout implements View, Upload.Receiver, U
     public void uploadSucceeded(Upload.SucceededEvent succeededEvent) {
         byte[] data = ((ByteArrayOutputStream)outputStream).toByteArray();
         lua = new String(data, Charset.forName("UTF-8"));
+
         List<Node> nodes;
+
         try {
             nodes = mergerService.getNodes(lua);
-            int imported = nodeService.saveAll(nodes);
+            String userName = MapMerger.getUserNames(lua);
 
-            uploadDataService.add(imported,lua);
+            List<Node>  validNodes = nodeService.checkDuplicate(nodes);
+
+            if( validNodes.size() > 0){
+                uploadDataService.add(validNodes, userName);
+            }
 
             prepareDownload();
-            Notification.show(imported + " élément(s) importés");
+            Notification.show(validNodes.size() + " élément(s) importés");
         }catch (ReadException e)
         {
             Notification.show(e.getMessage(), Notification.Type.WARNING_MESSAGE);

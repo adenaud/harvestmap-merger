@@ -5,7 +5,7 @@
     <parent>
         <artifactId>harvestmap-merger</artifactId>
         <groupId>fr.tpdo.teso</groupId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>

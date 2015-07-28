@@ -20,7 +20,10 @@ public class Node {
     private double x;
     private double y;
     private String zone;
-    private Timestamp time;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_upload")
+    private UploadData uploadData;
 
     public Node() {
     }
@@ -85,11 +88,11 @@ public class Node {
         this.description = description;
     }
 
-    public Timestamp getTime() {
-        return time;
+    public UploadData getUploadData() {
+        return uploadData;
     }
 
-    public void setTime(Timestamp time) {
-        this.time = time;
+    public void setUploadData(UploadData uploadData) {
+        this.uploadData = uploadData;
     }
 }

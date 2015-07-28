@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,15 +21,17 @@ public class NodeService {
     }
 
 
-    public int saveAll(List<Node> nodes) {
-        int count = 0;
+    public void saveAll(List<Node> nodes) {
+        nodeDao.save(nodes);
+    }
+
+    public List<Node> checkDuplicate(List<Node> nodes) {
+        List<Node> validNodes = new ArrayList<>();
         for (Node node : nodes){
             if(nodeDao.count(node.getX(),node.getY(),node.getZone(),node.getCategory()) == 0){
-                node.setTime(new Timestamp(new Date().getTime()));
-                nodeDao.save(node);
-                count++;
+                validNodes.add(node);
             }
         }
-        return count;
+        return validNodes;
     }
 }
